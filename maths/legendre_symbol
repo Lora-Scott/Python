@@ -1,0 +1,48 @@
+"""
+Legendre Symbol Calculation
+Wikipedia: https://en.wikipedia.org/wiki/Legendre_symbol
+"""
+
+def legendre_symbol(a: int, p: int) -> int:
+    """
+    Calculate the Legendre symbol (a/p) using Euler's criterion.
+    
+    The Legendre symbol indicates whether 'a' is a quadratic residue modulo an odd prime 'p'.
+    
+    Returns:
+         1 if a is a quadratic residue modulo p and a % p != 0.
+        -1 if a is a non-quadratic residue modulo p.
+         0 if a % p == 0.
+
+    Examples:
+    >>> legendre_symbol(2, 3)
+    -1
+    >>> legendre_symbol(2, 5)
+    -1
+    >>> legendre_symbol(7, 11)
+    -1
+    >>> legendre_symbol(9, 11)
+    1
+    >>> legendre_symbol(0, 11)
+    0
+    >>> legendre_symbol(10, 2)
+    Traceback (most recent call last):
+        ...
+    ValueError: p must be an odd prime number greater than 2
+    """
+    if p < 3 or p % 2 == 0:
+        raise ValueError("p must be an odd prime number greater than 2")
+
+    a = a % p
+    if a == 0:
+        return 0
+
+    # Euler's criterion: a^((p-1)/2) mod p
+    result = pow(a, (p - 1) // 2, p)
+
+    # In modular arithmetic, p - 1 is equivalent to -1
+    return -1 if result == p - 1 else result
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
